@@ -1,0 +1,187 @@
+import React, { Component } from 'react';
+import styled from 'styled-components';
+import ExpandView from './ExpandView';
+
+class GetUsers extends Component {
+    state = { 
+        loading: true,
+        users: [],
+        
+        
+     }
+    
+
+     async componentDidMount(){
+        const response = await fetch("https://api.hatchways.io/assessment/students");
+        const data = await response.json();
+        this.setState({ users: data.students, loading: false} );
+    }
+
+    render() {
+        
+        
+        if(this.state.loading){
+            return <div>getting students...</div>
+        }
+
+        
+
+        const filterText = this.props.filterText;
+
+        const studentList = this.state.users
+        .filter(student => {
+            return student.firstName.toLowerCase().indexOf(filterText.toLowerCase()) !== -1 || student.lastName.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
+            
+        }).map(student =>
+            <div className="student-li" key={student.id}>
+                <div className="student-profile">
+                    <div className="profile-picture">
+                        <img src={student.pic} alt="pfp"></img>
+                    </div>
+                    <div className = "content">
+                        <h1 className="student-name">{student.firstName} {student.lastName}</h1>
+                        <p>Email: {student.email}</p>
+                        <p>Company: {student.company}</p>
+                        <p>Skill: {student.skill}</p>
+                        <p>City: {student.city}</p>
+                        <ExpandView city = {student.city} grades = {student.grades} filterTags = {this.props.filterTags}></ExpandView>
+                    </div>
+                </div>
+            </div>
+        )
+        
+
+
+        return (
+            <Wrapper>
+                <ul>
+                    {studentList}
+                
+                </ul>
+            </Wrapper>
+
+        );
+    }
+}
+ 
+export default GetUsers;
+
+
+const Wrapper = styled.section`
+    .student-li {
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .student-profile {
+        background-color: white;
+        width: 50%;
+        margin: 20px;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        display: flex;
+        box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+        position: relative;
+    }
+
+    .profile-picture {
+        margin: 10px;
+        border: 1px solid #9A9A9A;
+        display: flex;
+        overflow: hidden;
+        justify-content: center;
+        height: 100px;
+        width: 100px;
+        -moz-border-radius: 50%;
+        border-radius: 50%
+        
+
+    }
+
+    .profile-picture img {
+        height: 100%;
+        width: 100%;
+    }
+
+    .student-name {
+        margin: 5px 10px;
+        font-family: "Montserrat";
+    }
+
+    .student-profile div p{
+        margin: 5px 10px;
+        font-family: "Montserrat";
+    }
+
+    .btn-container {
+        top: 0px;
+        right: 0px;
+        position: absolute;
+        
+    }
+
+    .expand-btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        max-width: 100%;
+        height: auto;
+        margin: 5px;
+        transition: all 0.3s ease
+        
+    }
+
+    .active{
+        transform: rotate(180deg);
+        transition: all 0.3s ease
+    }
+
+    .expand-btn:focus {
+        outline: none
+    }
+
+    .toggled-items {
+        
+        transition: all 0.4s ease;
+    }
+
+    .test-score{
+        margin: 2px;
+    }
+`
+     
+
+    // async componentDidMount(){
+    //     const response = await fetch("https://api.hatchways.io/assessment/students");
+    //     const data = await response.json();
+    //     const studentArray = []
+    //     this.studentList(data, studentArray);
+    //     this.setState({ users: studentArray, loading: false} );
+        
+    // }
+
+
+    search filter : --
+    .filter(student => {
+            if(filterTags.length > 0){
+                return this.props.tagArray.filter(tag => 
+                tag.newTag.indexOf(filterTags) !== -1
+            ).map(tag => tag.id).includes(student.id)
+            }else{
+                return true
+            }
+        })
+
+
+<img src={expandButton} width="40px" alt="expand view" />
+
+const [setExpand, setExpandState] = useState("");
+    const [setDropdown, showDropdownState] = useState("none");
+
+    const toggleExpand = () => {
+        setExpandState(setExpand === "" ? "active" : "");
+        showDropdownState(setExpand === "active" ? "none" : "block")
+    }
