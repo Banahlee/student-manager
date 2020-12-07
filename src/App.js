@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import GetUsers from './components/GetUsers';
-import Search from './components/Search';
+
 
 class App extends Component {
 
@@ -53,7 +53,7 @@ class App extends Component {
               },
             ]
           },
-          ...prevState.users.filter(user => user.id !== id),
+         ...prevState.users.filter(user => user.id !== id),
         ]
       }
     });

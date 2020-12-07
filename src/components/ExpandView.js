@@ -18,7 +18,10 @@ function ExpandView(props) {
                 <button className={`expand-btn ${setExpand}`} onClick={toggleExpand}></button>
             </div>
             <div className="toggled-items" style = {{ display:`${setDropdown}`, transition: "all 0.5s ease"}}>
-                <p>{props.grades.map((grade, index) => <li className="test-score" key = {index}>Test {index}: {grade}%</li>)}</p>
+                <p>{props.grades.map((grade, index) => {
+                    const testNumber = index + 1;
+                    return <li className="test-score" key = {index}>Test {testNumber}: {grade}%</li>
+                })}</p>
                 
                 <AddTag 
                     addTag = {props.addTag}

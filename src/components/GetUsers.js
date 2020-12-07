@@ -23,8 +23,8 @@ class GetUsers extends Component {
                 !filterTag && true || student.userTags && student.userTags.filter(tag => tag.newTag.indexOf(filterTag) > -1).length > 0)
             .map((student, index) => {
                 const studentId = student.id
-                const stringifyGrades = student.grades.map(grade => parseInt(grade));
-                const gradeAverage = stringifyGrades.reduce((a, b) => a + b, 0) / student.grades.length;
+                const parseGrades = student.grades.map(grade => parseInt(grade));
+                const gradeAverage = parseGrades.reduce((a, b) => a + b, 0) / student.grades.length;
                 const roundGradeAverage = gradeAverage.toFixed(2)
                 return <div className="student-li" key={student.id}>
                     <div className="student-profile">
@@ -40,9 +40,7 @@ class GetUsers extends Component {
                             <ExpandView 
                             grades = {student.grades} 
                             addTag = {this.props.addTag}
-                            
                             studentId = {studentId}
-                            
                             tagArray = {student.userTags}
                             ></ExpandView>
                         </div>
@@ -83,11 +81,8 @@ const Wrapper = styled.section`
         overflow: hidden;
         overflow-y: scroll;
         background-color: white;
-        margin: auto;
         border-radius: 20px;
         box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
-        position: relative;
-        transform: translateY(50%)
         
     }
 
